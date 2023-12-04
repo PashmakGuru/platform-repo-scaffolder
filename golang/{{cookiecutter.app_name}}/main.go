@@ -8,12 +8,13 @@ import (
 )
 
 func main() {
-	log.Println("setting up server for {{ app_name }}...")
+	log.Println("setting up web server (http://0.0.0.0:8080) for {{ cookiecutter.app_name }}...")
 
+	gin.SetMode(gin.ReleaseMode)
 	r := gin.Default()
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "hello from {{ app_name }}!",
+			"message": "hello from {{ cookiecutter.app_name }}!",
 		})
 	})
 
