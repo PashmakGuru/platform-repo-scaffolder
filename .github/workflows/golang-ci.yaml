@@ -63,7 +63,7 @@ jobs:
       run: |
         go run main.go > /tmp/app-log &
         sleep 2
-        curl --connect-timeout 10 http://0.0.0.0:8080
+        $(curl --connect-timeout 10 http://0.0.0.0:8080)
 
         if [ $? -eq 0 ]; then
           cat /tmp/app-log
