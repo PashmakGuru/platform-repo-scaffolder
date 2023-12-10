@@ -31,15 +31,12 @@ jobs:
     - name: Install Cookiecutter
       run: pip install cookiecutter
     - name: Run Cookiecutter
-      run: |
-        cookiecutter --no-input -o $(pwd)/.data/ $(pwd)/golang/
-        find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
-
+      run: cookiecutter --no-input -o $(pwd)/.data/ $(pwd)/golang/
     - name: Temporarily save cookiecutter output
       uses: actions/upload-artifact@v2
       with:
         name: golang-src
-        path: ./.data/MyGolangApp
+        path: .data/MyGolangApp
         retention-days: 1
 
   test-go-executable:
@@ -57,7 +54,7 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: golang-src
-        path: ./.data/MyGolangApp
+        path: .data/MyGolangApp
     - name: Download all Go modules
       working-directory: .data/MyGolangApp
       run: go get
