@@ -31,7 +31,10 @@ jobs:
     - name: Install Cookiecutter
       run: pip install cookiecutter
     - name: Run Cookiecutter
-      run: cookiecutter --no-input -o $(pwd)/.data/ $(pwd)/golang/
+      run: |
+        cookiecutter --no-input -o $(pwd)/.data/ $(pwd)/golang/
+        find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+
     - name: Temporarily save cookiecutter output
       uses: actions/upload-artifact@v2
       with:
