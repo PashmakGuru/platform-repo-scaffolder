@@ -84,7 +84,7 @@ jobs:
       uses: plexsystems/container-structure-test-action@cc689017bbb16a3c98e6e87b0e07f92ad35a9df1
       with:
         image: app:test
-        config: container-structure-test.yaml
+        config: .data/MyGolangApp/container-structure-test.yaml
     - name: Run integration test
       working-directory: .data/MyGolangApp
       run: |
