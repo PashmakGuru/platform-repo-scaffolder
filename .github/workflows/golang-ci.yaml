@@ -65,7 +65,7 @@ jobs:
         curl --connect-timeout 10 http://0.0.0.0:8080
 
   test-image-functionality:
-    name: Build and Test Golang Executable
+    name: Build and Test Image Functionality
     runs-on: ubuntu-22.04
     needs: prepare-template
     steps:
