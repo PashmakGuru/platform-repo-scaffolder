@@ -1,14 +1,6 @@
 # Repository Scaffolder
 
-## Golang Scaffolder
-Test the tamplate using:
-```bash
-# Use cookiecutter to build Golang template
-cookiecutter -o $(pwd)/.data/ $(pwd)/golang/
-cd ./.data/NAME-OF-APP
-go get
-go run main.go
-```
+This repository is responsible to hold project templates in different languages and scaffold other repositories. The scaffolder fullfils parts of day-0 operations.
 
-Resources:
-- https://github.com/port-labs/cookiecutter-gha/
+## Development & Contribution
+For preparing your development environment and understanding the way to develope the project, refer to [CONTRIBUTION.md](./.github/CONTRIBUTION.md).

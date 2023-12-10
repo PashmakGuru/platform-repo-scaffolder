@@ -9,7 +9,7 @@ dev-prerequisites: dev-check-in install-act install-cookiecutter
 dev-check-in:
 	@brew --version || { echo "📛 brew is not installed. See: https://brew.sh"; exit 1; }
 	@docker --version || { echo "📛 docker is not installed. See: https://docs.docker.com/engine/install"; exit 1; }
-	@python3 --version || { echo "📛 brew is not installed. See: https://www.python.org/downloads/"; exit 1; }
+	@python3 --version || { echo "📛 python3 is not installed. See: https://www.python.org/downloads/"; exit 1; }
 	@pip --version || { echo "📛 pip is not installed."; exit 1; }
 	@go version || ( echo "📛 golang is not installed. See: https://go.dev/doc/install"; exit 1; )
 
