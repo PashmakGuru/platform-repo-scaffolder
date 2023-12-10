@@ -1,0 +1,66 @@
+name: Integration tests
+on:
+  push:
+    branches:
+    - 'main'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+    - 'main'
+    paths:
+    - 'golang/**'
+    - '.github/workflows/golang-ci.yaml'
+
+env:
+    GOLANG_VERSION: '1.20'
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+  prepare-template:
+    name: Prepare Cookiecutter Template
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install Cookiecutter
+      run: pip install cookiecutter
+    - name: Run Cookiecutter
+      run: cookiecutter --no-input -o $(pwd)/.data/ $(pwd)/golang/
+    - name: Temporarily save Docker image
+      uses: actions/upload-artifact@v2
+      with:
+        name: golang-src
+        path: .data/MyGolangApp
+        retention-days: 1
+
+  test-go-executable:
+    name: Build and Test Golang Executable
+    runs-on: ubuntu-22.04
+    needs: prepare-template
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+    - name: Setup Golang
+      uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753 # v4.0.0
+      with:
+        go-version: ${{ env.GOLANG_VERSION }}
+    - name: Retrieve saved Docker image
+      uses: actions/download-artifact@v2
+      with:
+        name: golang-src
+        path: .data/MyGolangApp
+    - name: Download all Go modules
+      working-directory: .data/MyGolangApp
+      run: go get
+    - name: Run integration test
+      working-directory: .data/MyGolangApp
+      run: |
+        go run main.go &
+        sleep 2
+        curl --connect-timeout 10 http://0.0.0.0:8080
