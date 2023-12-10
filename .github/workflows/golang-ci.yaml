@@ -61,6 +61,17 @@ jobs:
     - name: Run integration test
       working-directory: .data/MyGolangApp
       run: |
-        go run main.go &
+        go run main.go > /tmp/app-log &
         sleep 2
         curl --connect-timeout 10 http://0.0.0.0:8080
+
+        if [ $? -eq 0 ]; then
+          cat /tmp/app-log
+          echo "Curl succeeded."
+        else
+          cat /tmp/app-log
+          echo "Curl failed!"
+          exit 1
+        fi
+
+
