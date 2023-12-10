@@ -64,4 +64,27 @@ jobs:
         sleep 1
         curl --connect-timeout 10 http://0.0.0.0:8080
 
+  test-image-functionality:
+    name: Build and Test Golang Executable
+    runs-on: ubuntu-22.04
+    needs: prepare-template
+    steps:
+    - name: Retrieve saved cookiecutter output
+      uses: actions/download-artifact@v2
+      with:
+        name: golang-src
+        path: .data/MyGolangApp
+    - name: Build and export to Docker
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        load: true
+        tags: |
+          app:test
+    - name: Run integration test
+      working-directory: .data/MyGolangApp
+      run: |
+        docker run -p 8080:8080 app:test &
+        sleep 1
+        curl --connect-timeout 10 http://0.0.0.0:8080
 
