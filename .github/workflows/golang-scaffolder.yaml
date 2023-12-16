@@ -25,6 +25,6 @@ jobs:
             repositoryName: ${{ fromJson(inputs.port_payload).payload.properties.name }}
             portUserInputs: ${{ toJson(fromJson(inputs.port_payload).payload.properties) }}
             cookiecutterTemplate: ${{ github.server_url	}}/${{ github.repository }}
-            scaffoldDirectory: ${{ fromJson(inputs.port_payload).payload.properties.language }}
+            templateDirectory: ${{ fromJson(inputs.port_payload).payload.properties.language }}
             blueprintIdentifier: repository
             organizationName: ${{ github.repository_owner }}
