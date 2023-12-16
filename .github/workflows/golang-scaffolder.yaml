@@ -16,7 +16,7 @@ jobs:
     scaffold:
         runs-on: ubuntu-22.04
         steps:
-        - uses: PashmakGuru/port-labs-cookiecutter-gha
+        - uses: PashmakGuru/port-labs-cookiecutter-gha@main
           with:
             portClientId: ${{ secrets.PORT_CLIENT_ID }}
             portClientSecret: ${{ secrets.PORT_CLIENT_SECRET }}
