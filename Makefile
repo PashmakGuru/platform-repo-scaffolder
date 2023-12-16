@@ -26,8 +26,19 @@ golang-local-scaffold:
 	&& rm -rf "$$OUT" \
 	&& cookiecutter --no-input -o $$OUT $$(pwd)/golang/ \
 	&& cd $$OUT_PROJECT \
-	&& go get \
-	&& echo "" && echo "🌿 Output: $$OUT_PROJECT"
+	&& printf "\n\n🌿 Templating Done. Now you can run:\n\ncd $$OUT_PROJECT\ngo get\ngo run main.go\n"
+
+vuejs-local-scaffold:
+	export OUT=$$(pwd)/.tmp/vuejs \
+	&& export OUT_PROJECT=$$OUT/MyVueJSApp \
+	&& echo "$$OUT" \
+	&& rm -rf "$$OUT" \
+	&& cookiecutter --no-input -o $$OUT $$(pwd)/vuejs/ \
+	&& cd $$OUT_PROJECT \
+	&& printf "\n\n🌿 Templating Done. Now you can run:\n\ncd $$OUT_PROJECT\nnpm install\nnpm run dev\n"
 
 act-golang-ci:
 	act -W .github/workflows/golang-ci.yaml --artifact-server-path /tmp/artifacts
+
+act-vuejs-ci:
+	act -W .github/workflows/vuejs-ci.yaml --artifact-server-path /tmp/artifacts
