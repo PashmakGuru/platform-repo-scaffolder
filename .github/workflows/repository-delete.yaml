@@ -14,7 +14,7 @@ on:
       PORT_CLIENT_SECRET:
         required: true
 jobs:
-  destroy:
+  backup:
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout code
@@ -36,10 +36,11 @@ jobs:
         name: ${{ steps.compress.outputs.ARCHIVE }}
         path: /tmp/${{ steps.compress.outputs.ARCHIVE }}
         retention-days: 60
-    - uses: port-labs/port-github-action@v1
-      with:
-        clientId: ${{ secrets.PORT_CLIENT_ID }}
-        clientSecret: ${{ secrets.PORT_CLIENT_SECRET }}
-        blueprint: repository
-        runId: ${{ fromJson(inputs.port_payload).context.runId }}
-        logMessage: "Repository is backed-up as artifact: ${{ steps.compress.outputs.ARCHIVE }} 💾"
+    - name: Report
+      run: |
+        curl --location "https://api.getport.io/v1/actions/runs/${{ fromJson(inputs.port_payload).context.runId }}/logs" \
+          --header "Authorization: Bearer ${{ secrets.PORT_CLIENT_SECRET }}" \
+          --header "Content-Type: application/json" \
+          --data "{
+            \"message\": \""Repository is backed-up. In order to download it, open the job in GH. Artifact Name: ${{ steps.compress.outputs.ARCHIVE }} 💾"\"
+          }"
