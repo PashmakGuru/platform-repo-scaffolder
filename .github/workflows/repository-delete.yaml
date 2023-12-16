@@ -36,11 +36,3 @@ jobs:
         name: ${{ steps.compress.outputs.ARCHIVE }}
         path: /tmp/${{ steps.compress.outputs.ARCHIVE }}
         retention-days: 60
-    - name: Report
-      run: |
-        curl --location "https://api.getport.io/v1/actions/runs/${{ fromJson(inputs.port_payload).context.runId }}/logs" \
-          --header "Authorization: Bearer ${{ secrets.PORT_CLIENT_SECRET }}" \
-          --header "Content-Type: application/json" \
-          --data "{
-            \"message\": \"Repository is backed-up. In order to download it, open the job in GH. Artifact Name: ${{ steps.compress.outputs.ARCHIVE }} 💾\"
-          }"
