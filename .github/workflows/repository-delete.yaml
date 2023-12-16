@@ -42,5 +42,5 @@ jobs:
           --header "Authorization: Bearer ${{ secrets.PORT_CLIENT_SECRET }}" \
           --header "Content-Type: application/json" \
           --data "{
-            \"message\": \""Repository is backed-up. In order to download it, open the job in GH. Artifact Name: ${{ steps.compress.outputs.ARCHIVE }} 💾"\"
+            \"message\": \"Repository is backed-up. In order to download it, open the job in GH. Artifact Name: ${{ steps.compress.outputs.ARCHIVE }} 💾\"
           }"
