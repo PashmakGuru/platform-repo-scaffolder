@@ -1,0 +1,26 @@
+name: Repository Destroyer
+on:
+    workflow_dispatch:
+      inputs:
+        port_payload:
+          required: true
+          description: "Port's payload, including details for who triggered the action and general context (blueprint, run id, etc...)"
+          type: string
+      secrets:
+        GH_ORG_TOKEN:
+          required: true
+        PORT_CLIENT_ID:
+          required: true
+        PORT_CLIENT_SECRET:
+          required: true
+jobs:
+  destroy:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: port-labs/port-github-action@v1
+      with:
+        clientId: ${{ secrets.PORT_CLIENT_ID }}
+        clientSecret: ${{ secrets.PORT_CLIENT_SECRET }}
+        operation: PATCH_RUN
+        runId: ${{ fromJson(inputs.port_payload).context.runId }}
+        logMessage: "Test message"
