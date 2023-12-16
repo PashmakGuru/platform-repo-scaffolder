@@ -63,7 +63,7 @@ jobs:
     - name: Run integration test
       working-directory: .data/MyVueJSApp
       run: |
-        docker run -p 8080:80 app:test &
+        docker run -p 8080:8080 app:test &
         sleep 1
         response=$(curl --connect-timeout 10 http://0.0.0.0:8080)
         if [[ $response != *"<title>MyVueJSApp</title>"* ]]; then

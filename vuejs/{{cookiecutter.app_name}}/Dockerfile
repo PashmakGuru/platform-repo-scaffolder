@@ -10,9 +10,9 @@ COPY . .
 RUN npm run build
 
 # Production Stage
-FROM nginx:1.24.0
+FROM nginxinc/nginx-unprivileged:1.24.0
 
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-EXPOSE 80
+EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
