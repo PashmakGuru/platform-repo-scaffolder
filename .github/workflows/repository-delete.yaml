@@ -1,26 +1,42 @@
-name: Repository Destroyer
+name: Delete a Repository
 on:
-    workflow_dispatch:
-      inputs:
-        port_payload:
-          required: true
-          description: "Port's payload, including details for who triggered the action and general context (blueprint, run id, etc...)"
-          type: string
-      secrets:
-        GH_ORG_TOKEN:
-          required: true
-        PORT_CLIENT_ID:
-          required: true
-        PORT_CLIENT_SECRET:
-          required: true
+  workflow_dispatch:
+    inputs:
+      port_payload:
+        required: true
+        description: "Port's payload, including details for who triggered the action and general context (blueprint, run id, etc...)"
+        type: string
+    secrets:
+      GH_ORG_TOKEN:
+        required: true
+      PORT_CLIENT_ID:
+        required: true
+      PORT_CLIENT_SECRET:
+        required: true
 jobs:
   destroy:
     runs-on: ubuntu-22.04
     steps:
+    - name: Checkout code
+      uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+    - name: Compress current repository
+      id: compress
+      run: |
+        GITHUB_URL=${{ fromJson(inputs.port_payload).payload.entity.properties.url }}
+        ORG=$(echo "$GITHUB_URL" | cut -d'/' -f4)
+        REPO=$(echo "$GITHUB_URL" | cut -d'/' -f5)
+        ARCHIVE=backup-$ORG--$REPO-$(date +"%Y-%m-%d_%H-%M-%S").tar.gz
+        tar -czf $ARCHIVE .
+        echo "::set-output name=ARCHIVE::$ARCHIVE"
+    - name: Upload repository archive as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ steps.compress.outputs.ARCHIVE }}
+        path: ${{ steps.compress.outputs.ARCHIVE }}
+        retention-days: 60
     - uses: port-labs/port-github-action@v1
       with:
         clientId: ${{ secrets.PORT_CLIENT_ID }}
         clientSecret: ${{ secrets.PORT_CLIENT_SECRET }}
-        operation: PATCH_RUN
         runId: ${{ fromJson(inputs.port_payload).context.runId }}
-        logMessage: "Test message"
+        logMessage: "Repository is backed-up as artifact: ${{ steps.compress.outputs.ARCHIVE }} 💾"
