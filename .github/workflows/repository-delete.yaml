@@ -40,6 +40,6 @@ jobs:
       with:
         clientId: ${{ secrets.PORT_CLIENT_ID }}
         clientSecret: ${{ secrets.PORT_CLIENT_SECRET }}
-        blueprint: repositories
+        blueprint: repository
         runId: ${{ fromJson(inputs.port_payload).context.runId }}
         logMessage: "Repository is backed-up as artifact: ${{ steps.compress.outputs.ARCHIVE }} 💾"
