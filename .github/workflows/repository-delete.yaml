@@ -26,6 +26,8 @@ jobs:
         ORG=$(echo "$GITHUB_URL" | cut -d'/' -f4)
         REPO=$(echo "$GITHUB_URL" | cut -d'/' -f5)
         ARCHIVE=backup-$ORG--$REPO-$(date +"%Y-%m-%d_%H-%M-%S").tar.gz
+        git clone $GITHUB_URL /tmp/repo
+        cd /tmp/repo
         tar -czf /tmp/$ARCHIVE .
         echo "::set-output name=ARCHIVE::$ARCHIVE"
     - name: Upload repository archive as artifact
@@ -38,5 +40,6 @@ jobs:
       with:
         clientId: ${{ secrets.PORT_CLIENT_ID }}
         clientSecret: ${{ secrets.PORT_CLIENT_SECRET }}
+        blueprint: repositories
         runId: ${{ fromJson(inputs.port_payload).context.runId }}
         logMessage: "Repository is backed-up as artifact: ${{ steps.compress.outputs.ARCHIVE }} 💾"
