@@ -26,13 +26,13 @@ jobs:
         ORG=$(echo "$GITHUB_URL" | cut -d'/' -f4)
         REPO=$(echo "$GITHUB_URL" | cut -d'/' -f5)
         ARCHIVE=backup-$ORG--$REPO-$(date +"%Y-%m-%d_%H-%M-%S").tar.gz
-        tar -czf $ARCHIVE .
+        tar -czf /tmp/$ARCHIVE .
         echo "::set-output name=ARCHIVE::$ARCHIVE"
     - name: Upload repository archive as artifact
       uses: actions/upload-artifact@v2
       with:
         name: ${{ steps.compress.outputs.ARCHIVE }}
-        path: ${{ steps.compress.outputs.ARCHIVE }}
+        path: /tmp/${{ steps.compress.outputs.ARCHIVE }}
         retention-days: 60
     - uses: port-labs/port-github-action@v1
       with:
