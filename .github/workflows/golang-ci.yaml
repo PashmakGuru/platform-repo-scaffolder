@@ -11,13 +11,6 @@ on:
     - 'golang/**'
     - '.github/workflows/golang-ci.yaml'
 
-env:
-    GOLANG_VERSION: '1.20'
-
-concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: true
-
 jobs:
   prepare-template:
     name: Prepare Cookiecutter Template
@@ -90,5 +83,11 @@ jobs:
       run: |
         docker run -p 8080:8080 app:test &
         sleep 1
-        curl --connect-timeout 10 http://0.0.0.0:8080
+        response=$(curl --connect-timeout 10 http://0.0.0.0:8080)
+        needle="hello from MyGolangApp!"
+        if [[ $response != *"$needle"* ]]; then
+            echo "Unable to find needle \"$needle\" inside the following response:"
+            echo $response
+            exit 1
+        fi
 
