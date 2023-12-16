@@ -1,3 +1,4 @@
+name: Golang Repository Scaffolder
 on:
     workflow_dispatch:
       inputs:
