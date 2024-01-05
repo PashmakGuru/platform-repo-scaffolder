@@ -9,12 +9,12 @@ This repository is dedicated to maintaining a collection of project templates in
 ### Sequence of Scaffolding a Repository
 ```mermaid
 sequenceDiagram
-    actor PLE as Platform Engineer
+    actor DEV as Developer
     participant PRT as Port IDP
     participant RRS as Repository:<br>platform-repo-scaffolder
     participant RNW as New Repository
 
-    PLE ->> PRT: Scaffold a new repository
+    DEV ->> PRT: Scaffold a new repository
     PRT ->> RRS: Initiate workflow:<br>repository-scaffolder.yaml
     RRS ->> RRS: Prepare a template<br>using Cookiecutter
     RRS ->> RNW: Create a new repository
@@ -24,12 +24,12 @@ sequenceDiagram
 ### Sequence of Deleting a Repository
 ```mermaid
 sequenceDiagram
-    actor PLE as Platform Engineer
+    actor DEV as Developer
     participant PRT as Port IDP
     participant RRS as Repository:<br>platform-repo-scaffolder
     participant RTG as Target Repository
 
-    PLE ->> PRT: Delete a repository
+    DEV ->> PRT: Delete a repository
     PRT ->> RRS: Initiate workflow:<br>repository-delete.yaml
     RRS ->> RTG: Clone the repository
     activate RTG
