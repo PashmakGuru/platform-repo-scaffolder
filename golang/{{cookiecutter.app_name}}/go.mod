@@ -1,4 +1,4 @@
-module github.com/PashmakGuru/project-name
+module github.com/PashmakGuru/{{cookiecutter.repository_name}}
 
 go 1.20
 

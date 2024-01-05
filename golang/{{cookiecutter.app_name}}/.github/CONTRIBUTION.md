@@ -1,6 +1,6 @@
-# Contributing to [Project Name]
+# Contributing to {{cookiecutter.app_name}}
 
-Thank you for your interest in contributing to [Project Name]! We welcome contributions from the community to make our project better. Before you get started, please take a moment to read this guide to understand how you can contribute.
+Thank you for your interest in contributing to {{cookiecutter.app_name}}! We welcome contributions from the community to make our project better. Before you get started, please take a moment to read this guide to understand how you can contribute.
 
 ## Table of Contents
 

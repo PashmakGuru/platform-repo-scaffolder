@@ -6,7 +6,7 @@ If you discover a security vulnerability in this project, please follow these st
 
 1. **Do Not** create a GitHub issue. Security vulnerabilities should be reported privately.
 
-2. Send an email to [{{cookiecutter.repository_email}}](mailto:cookiecutter.repository_email) with a detailed description of the vulnerability. Please provide as much information as possible, including:
+2. Send an email to [{{cookiecutter.repository_email}}](mailto:{{cookiecutter.repository_email}}) with a detailed description of the vulnerability. Please provide as much information as possible, including:
 
    - A clear description of the vulnerability.
    - Steps to reproduce the vulnerability.
