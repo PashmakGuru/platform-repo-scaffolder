@@ -1,10 +1,44 @@
-# Scaffolder
+# Repository Scaffolder
 
+## Overview
 [![Golang Template Integration Tests](https://github.com/PashmakGuru/platform-repo-scaffolder/actions/workflows/golang-ci.yaml/badge.svg)](https://github.com/PashmakGuru/platform-repo-scaffolder/actions/workflows/golang-ci.yaml)
 [![VueJS Template Integration Tests](https://github.com/PashmakGuru/platform-repo-scaffolder/actions/workflows/vuejs-ci.yaml/badge.svg)](https://github.com/PashmakGuru/platform-repo-scaffolder/actions/workflows/vuejs-ci.yaml)
 
 This repository is dedicated to maintaining a collection of project templates in various programming languages and facilitates the creation of new repositories. It plays a crucial role in initial (day-0) repository setup operations.
 
+### Sequence of Scaffolding a Repository
+```mermaid
+sequenceDiagram
+    actor PLE as Platform Engineer
+    participant PRT as Port IDP
+    participant RRS as Repository:<br>platform-repo-scaffolder
+    participant RNW as New Repository
+
+    PLE ->> PRT: Scaffold a new repository
+    PRT ->> RRS: Initiate workflow:<br>repository-scaffolder.yaml
+    RRS ->> RRS: Prepare a template<br>using Cookiecutter
+    RRS ->> RNW: Create a new repository
+    RRS ->> PRT: Add the new entity
+```
+
+### Sequence of Deleting a Repository
+```mermaid
+sequenceDiagram
+    actor PLE as Platform Engineer
+    participant PRT as Port IDP
+    participant RRS as Repository:<br>platform-repo-scaffolder
+    participant RTG as Target Repository
+
+    PLE ->> PRT: Delete a repository
+    PRT ->> RRS: Initiate workflow:<br>repository-delete.yaml
+    RRS ->> RTG: Clone the repository
+    activate RTG
+    RTG -->>RRS: Get content
+    deactivate RTG
+    RRS ->> RRS: Backup the repository as an artifact
+    RRS ->> RTG: Delete the repository
+    RRS ->> PRT: Delete the entity
+```
 
 ## Key Functions
 - Maintenance of project source-code templates
